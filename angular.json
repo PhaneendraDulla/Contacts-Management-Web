@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Contacts-Management-Web:build"
+            "buildTarget": "Contacts-Management-Web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Contacts-Management-Web:build:production"
+              "buildTarget": "Contacts-Management-Web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Contacts-Management-Web:build"
+            "buildTarget": "Contacts-Management-Web:build"
           }
         },
         "test": {
