@@ -1,0 +1,55 @@
+<button type="button" class="btn btn-success" (click)="openAddContact()">New</button><br /><br />
+
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of contacts">
+        <td>{{ contact.id }}</td>
+        <td>{{ contact.firstName }}</td>
+        <td>{{ contact.lastName }}</td>
+        <td>{{ contact.email }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="openEditContact(contact)">
+            Edit
+          </button>
+        </td>
+        <td>
+          <button class="btn btn-danger" (click)="deleteContact(contact.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<div #contactModal class="modal" [class.show]="isModalOpen">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Contact Form</h5>
+        <button type="button" class="close" (click)="hideModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <app-contact-form
+          [contact]="selectedContact"
+          (addContact)="addContact($event)"
+          (editContact)="editContact($event)"
+        ></app-contact-form>
+      </div>
+    </div>
+  </div>
+</div>
