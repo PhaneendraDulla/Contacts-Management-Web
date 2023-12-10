@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/services/contact.service';
+import { ContactFormComponent } from '../contact-form/contact-form.component';
 
 @Component({
   selector: 'app-contact-details',
@@ -10,11 +11,11 @@ import { ContactService } from 'src/app/services/contact.service';
 })
 export class ContactDetailsComponent implements OnInit {
   @ViewChild('contactModal') contactModal: ElementRef;
+  @ViewChild(ContactFormComponent) contactFormComponent: ContactFormComponent;
 
   contacts: Contact[] = [];
   selectedContact: Contact | undefined;
   contactForm: FormGroup;
-  editMode = false;
   isModalOpen = false;
   contactId = 0;
   
@@ -34,10 +35,8 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   getAllContacts(): void {
-    console.log('getAllContacts');
     this.contactService.getAllContacts().subscribe(
       (response) => {
-        console.log(response);
         this.contacts = response.items;
       },
       (error) => {
@@ -47,35 +46,32 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   openAddContact(): void {
-    this.selectedContact = undefined;
-    this.contactForm.reset();
-    this.isModalOpen = true;
+    this.contactFormComponent.contact = null;
+    this.contactFormComponent.reset(); 
     this.showModal();
   }
 
   openEditContact(contact: Contact): void {
     this.contactId = contact.id;
     this.selectedContact = contact;    
-    this.contactForm.patchValue(contact);    
-    this.isModalOpen = true;
     this.showModal();
   }
 
   showModal(): void {
+    this.isModalOpen = true;
     this.contactModal.nativeElement.style.display = 'block';
   }
 
-  hideModal(): void {
-    this.contactForm.reset();
-    this.selectedContact = undefined; 
-    this.contactModal.nativeElement.style.display = 'none';
+  hideModal(): void {    
+    this.contactFormComponent.contact = this.selectedContact;
+    this.contactFormComponent.reset();      
     this.isModalOpen = false;
+    this.contactModal.nativeElement.style.display = 'none';
   }
 
   addContact(newContact: Contact): void {
     this.contactService.addContact(newContact).subscribe(
       () => {
-        this.contactForm.reset();
         this.hideModal();
         this.getAllContacts();
       },
@@ -89,7 +85,6 @@ export class ContactDetailsComponent implements OnInit {
     contact.id = this.contactId;
     this.contactService.updateContact(contact).subscribe(
       () => {
-        this.contactForm.reset();
         this.hideModal();
         this.getAllContacts();
       },
@@ -102,6 +97,9 @@ export class ContactDetailsComponent implements OnInit {
   deleteContact(id: number): void {
     this.contactService.deleteContact(id).subscribe(() => {
       this.getAllContacts();
+    },
+    (error) => {
+      console.error('Error deleting contact:', error);
     });
   }
 }
