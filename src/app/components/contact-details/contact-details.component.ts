@@ -70,6 +70,7 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   addContact(newContact: Contact): void {
+    newContact.id = 0;
     this.contactService.addContact(newContact).subscribe(
       () => {
         this.hideModal();
