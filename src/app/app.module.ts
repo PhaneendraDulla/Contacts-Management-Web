@@ -9,6 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactFormComponent } from './components/contact-form/contact-form.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 const routes: Routes = [
   { path: '', component: ContactDetailsComponent }  
@@ -27,7 +28,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

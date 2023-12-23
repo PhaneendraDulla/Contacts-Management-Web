@@ -1,38 +1,51 @@
 <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="firstName">First Name</label>
+    <label for="firstName">First Name *</label>
     <input
       formControlName="firstName"
       type="text"
       class="form-control"
       id="firstName"
       [value]="contact?.firstName"
+      required
     />
+    <div *ngIf="contactForm.controls['firstName'].invalid && (contactForm.controls['firstName'].dirty && contactForm.controls['firstName'].touched)" >
+      <span class="error-message">FirstName is required</span>
+    </div>
   </div>
   <br />
   <div class="form-group">
-    <label for="lastName">Last Name</label>
+    <label for="lastName">Last Name *</label>
     <input
       formControlName="lastName"
       type="text"
       class="form-control"
       id="lastName"
       [value]="contact?.lastName"
+      required
     />
+    <div *ngIf="contactForm.controls['lastName'].invalid && (contactForm.controls['lastName'].dirty && contactForm.controls['lastName'].touched)">
+      <span class="error-message">LastName is required</span>
+    </div>
   </div>
   <br />
   <div class="form-group">
-    <label for="email">Email</label>
+    <label for="email">Email *</label>
     <input
       formControlName="email"
       type="email"
       class="form-control"
       id="email"
       [value]="contact?.email"
+      required
     />
+    <div *ngIf="contactForm.controls['email'].invalid && (contactForm.controls['email'].dirty && contactForm.controls['email'].touched)">
+      <span class="error-message">Proper Email is required</span>
+    </div>
   </div>
   <br />
-  <button type="submit" class="btn btn-primary" [disabled]="!contactForm.valid">
+  <button type="submit" class="btn btn-primary" [disabled]="!contactForm.valid" >
     Save
   </button>
 </form>
+

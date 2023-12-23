@@ -1,5 +1,59 @@
 <div class="container">
-  <div class="row">
+  <div class="row border rounded p-4">
+    <div class="form-group w-25 col">
+      <label>Id</label>
+      <input
+        type="text"
+        id="id"
+        name="id"
+        class="form-control"
+        [(ngModel)]="id"
+        placeholder="Id"
+      />
+    </div>
+    <div class="form-group w-25 col">
+      <label>First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        class="form-control"
+        [(ngModel)]="firstName"
+        placeholder="First Name"
+      />
+    </div>
+    <div class="form-group w-25 col">
+      <label>Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        class="form-control"
+        [(ngModel)]="lastName"
+        placeholder="Last Name"
+      />
+    </div>
+    <div class="form-group w-25 col">
+      <label>Email</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        class="form-control"
+        [(ngModel)]="email"
+        placeholder="Email"
+      />
+    </div>
+    <div class="form-group col-auto mt-4">
+      <button type="button" class="btn btn-primary" (click)="getContacts()">
+        <i class="fa fa-search"></i>
+      </button>
+      <button type="button" class="btn btn-primary" (click)="reset()">
+        <i class="fa fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row pt-4">
     <div class="col">
       <button type="button" class="btn btn-success" (click)="openAddContact()">
         New
@@ -16,16 +70,17 @@
       <table class="table table-bordered">
         <thead class="thead-light">
           <tr>
-            <th>Id</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
+            <!-- <th (click)="sortBy('Id')" class="d-flex justify-content-between align-items-center">Id<i class="fa fa-sort-up"></i></th> -->
+            <th (click)="sortBy('Id')">Id</th>
+            <th (click)="sortBy('FirstName')">Firstname</th>
+            <th (click)="sortBy('LastName')">Lastname</th>
+            <th (click)="sortBy('Email')">Email</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let contact of contacts">
+          <tr *ngFor="let contact of pagedContacts">
             <td>{{ contact.id }}</td>
             <td>{{ contact.firstName }}</td>
             <td>{{ contact.lastName }}</td>
@@ -50,6 +105,16 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <pagination
+      [totalItems]="totalItems"
+      [itemsPerPage]="itemsPerPage"
+      [(ngModel)]="page"
+      (pageChanged)="pageChanged($event)"
+      [boundaryLinks]="true"
+      [maxSize]="5"
+    ></pagination>
   </div>
 </div>
 
