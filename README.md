@@ -52,14 +52,15 @@ This UI (Web) project manages the contact Information
 
 ### Components:
 - `AppComponent`: The root component that hosts other components.
-- `ContactDetailsComponent`: Displays a table of contacts, provides CRUD functionalities, and manages the modal to add/edit contacts.
+- `ContactDetailsComponent`: Displays a table of contacts, provides CRUD functionalities, and manages the modal to add/edit contacts. Also has search, sort, and pagination functionalities.
 - `ContactFormComponent`: Responsible for rendering the contact form, enabling addition and editing of contacts.
 
 ### Services:
-- `ContactService`: Handles API requests related to contacts, such as fetching, adding, updating, and deleting contacts.
+- `ContactService`: Handles API requests related to contacts, such as fetching, adding, updating, deleting, filtering and sorting contacts.
 
 ### Models:
 - `Contact` Interface: Defines the structure of a contact object with properties like id, firstName, lastName, and email.
+- `GetContactsQuery` Interface: Represents query parameters for searching, sorting, and pagination.
 
 
 
@@ -73,6 +74,9 @@ Utilizes Angular's `RouterModule` to set up routing.
 
 ### Forms and Form Handling:
 Employs Angular's `ReactiveFormsModule` for form creation, validation, and form data handling.
+
+### Form Validation:
+Form validation remains consistent for the contact form fields (firstName, lastName, email), ensuring proper data entry.
 
 ### HTTP Requests:
 Uses Angular's `HttpClientModule` to make HTTP requests to an API (`ContactService`), handling various CRUD operations related to contacts.
@@ -98,3 +102,5 @@ Uses two-way data binding and property binding to bind form fields with the corr
 - Clicking `Edit` in the table row opens the modal to edit the selected `contact`.
 - `ContactFormComponent` handles form submission for both adding and editing contacts, emitting events to `ContactDetailsComponent`.
 - `ContactService` handles HTTP requests to perform CRUD operations on contacts.
+- The search functionality enables users to filter contacts based on ID, first name, last name, and email, modifying the query parameters sent to the backend.
+-   Pagination controls allow users to navigate through pages, displaying a specific number of contacts per page, handled by the `ContactDetailsComponent`.
