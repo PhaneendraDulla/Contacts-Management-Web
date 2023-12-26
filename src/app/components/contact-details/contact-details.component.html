@@ -62,13 +62,13 @@
   </div>
   <div class="row mt-2">
     <div class="col">
-      <hr class="my-1 table-bordered" />
+      <hr class="my-1" />
     </div>
   </div>
   <div class="row mt-2">
     <div class="col">
-      <table class="table table-bordered">
-        <thead class="thead-light">
+      <table class="table table-bordered table-hover">
+        <thead>
           <tr>
             <!-- <th (click)="sortBy('Id')" class="d-flex justify-content-between align-items-center">Id<i class="fa fa-sort-up"></i></th> -->
             <th (click)="sortBy('Id')">Id</th>
@@ -80,7 +80,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let contact of pagedContacts">
+          <tr
+            *ngFor="let contact of pagedContacts"
+            [class.table-active]="selectedRow === contact"
+            (click)="selectRow(contact)"
+          >
             <td>{{ contact.id }}</td>
             <td>{{ contact.firstName }}</td>
             <td>{{ contact.lastName }}</td>
@@ -116,6 +120,18 @@
       [maxSize]="5"
     ></pagination>
   </div>
+</div>
+
+<div class="row mt-2 border" *ngIf="selectedRow">
+  <h3>Selected Contact Details</h3>
+  <span><b>ID:</b> {{ selectedRow.id }}</span
+  ><br />
+  <span><b>First Name:</b> {{ selectedRow.firstName }}</span
+  ><br />
+  <span><b>Last Name:</b> {{ selectedRow.lastName }}</span
+  ><br />
+  <span><b>Email:</b> {{ selectedRow.email }}</span
+  ><br /><br />
 </div>
 
 <div #contactModal class="modal" [class.show]="isModalOpen">

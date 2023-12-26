@@ -1,0 +1,5 @@
+.table-bordered,
+.border,
+.form-control {
+  border-color: #000 !important;
+}

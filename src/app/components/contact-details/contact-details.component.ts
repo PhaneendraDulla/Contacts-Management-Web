@@ -33,6 +33,11 @@ export class ContactDetailsComponent implements OnInit {
   lastName: string = '';
   email: string = '';
 
+  selectedRow: any;
+  selected: boolean = false;
+  isEdit: boolean = false;
+  isDelete: boolean = false;
+
   constructor(
     private contactService: ContactService,
     private formBuilder: FormBuilder
@@ -46,6 +51,26 @@ export class ContactDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getContacts();
+  }
+
+  selectRow(contact: any) {
+    if (this.selected && this.selectedRow == contact) {
+      this.clearSelection();
+    } else {
+      if (!(this.isEdit || this.isDelete)) {
+        this.selected = true;
+        this.selectedRow = contact;
+      } else {
+        this.clearSelection();
+      }
+    }
+  }
+
+  clearSelection() {
+    this.selected = false;
+    this.selectedRow = null;
+    this.isEdit = false;
+    this.isDelete = false;
   }
 
   pageChanged(event: any): void {
@@ -72,6 +97,7 @@ export class ContactDetailsComponent implements OnInit {
     this.itemsPerPage = 5;
     this.sortField = 'id';
     this.sortOrder = 'asc';
+    this.clearSelection();
     this.getContacts();
   }
 
@@ -87,6 +113,7 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   getContacts(): void {
+    this.clearSelection();
     var query: GetContactsQuery = {
       id: this.id,
       firstName: this.firstName,
@@ -116,6 +143,7 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   openEditContact(contact: Contact): void {
+    this.isEdit = true;
     this.contactId = contact.id;
     this.selectedContact = contact;
     this.showModal();
@@ -131,6 +159,7 @@ export class ContactDetailsComponent implements OnInit {
     this.contactFormComponent.reset();
     this.isModalOpen = false;
     this.contactModal.nativeElement.style.display = 'none';
+    this.clearSelection();
   }
 
   addContact(newContact: Contact): void {
@@ -160,6 +189,7 @@ export class ContactDetailsComponent implements OnInit {
   }
 
   deleteContact(id: number): void {
+    this.isDelete = true;
     this.contactService.deleteContact(id).subscribe(
       () => {
         this.getContacts();
